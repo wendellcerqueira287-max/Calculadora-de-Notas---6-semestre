@@ -169,6 +169,23 @@
             border-radius: 20px;
         }
 
+        .disclaimer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--input-text);
+            margin-top: 30px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .disclaimer svg {
+            width: 14px;
+            height: 14px;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 15px;
@@ -206,9 +223,28 @@
         </div>
 
         <div class="grid" id="app"></div>
+
+        <div class="disclaimer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Suas notas são salvas apenas neste navegador por 15 dias. Somente você tem acesso.
+        </div>
     </div>
 
     <script>
+        function checkExpiration() {
+            const now = new Date().getTime();
+            const savedTime = localStorage.getItem('nivus-save-time');
+            const fifteenDays = 15 * 24 * 60 * 60 * 1000;
+            
+            if (savedTime && (now - savedTime > fifteenDays)) {
+                localStorage.clear();
+            }
+            localStorage.setItem('nivus-save-time', now);
+        }
+        checkExpiration();
+
         const config = [
             { name: "Habilidades Procedimentais I", target: "VAT2", weights: { VAT1: 0.25, VAP1: 0.15, VAT2: 0.25, VAP2: 0.15, APA: 0.1, OSCE: 0.1 } },
             { name: "Clínica Médica II", target: "VAT2", weights: { VAT1: 0.1, VAP1: 0.15, VATuT1: 0.15, VAT2: 0.10, VAP2: 0.15, VATuT2: 0.15, APA: 0.1, OSCE: 0.1 } },
